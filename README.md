@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+<img width="1876" height="776" alt="{D4F44F53-FDA5-41D9-8D25-066BF063E1DA}" src="https://github.com/user-attachments/assets/14d27050-2bb0-4525-9688-9cb87d6e9e03" />
+
+
+
 NODE JS v24 LTS (Latest 1 Nov)
 NEXT JS 16 Latest 1 Nov
 
