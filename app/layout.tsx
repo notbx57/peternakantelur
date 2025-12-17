@@ -8,9 +8,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "MetrikTelur - Analisis Penjualan Telur",
-  description: "Dashboard analisis penjualan telur dengan prediksi AI",
-  generator: "v0.app",
+  title: "Egg o Meter",
+  description: "",
 }
 
 export default function RootLayout({
