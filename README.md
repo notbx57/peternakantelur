@@ -43,7 +43,7 @@ untuk mendapatkan `.env.local` dan isi konfigurasi yang dibutuhkan:
    ```bash
    npx convex dev --configure=existing --team rayyen --project peternakantelur
    ```
-2. Generate random string untuk `JWT_SECRET` dan `SESSION_SECRET` (bisa menggunakan command yang ada di komentar file .env.example).
+2. Buat `JWT_SECRET` dan `SESSION_SECRET` (lihat .env.example).
 
 ### 3. Jalankan Server
 
