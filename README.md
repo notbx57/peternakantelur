@@ -71,3 +71,5 @@ Aplikasi client akan berjalan di `http://localhost:5173`.
 
 - **client/**: Frontend menggunakan Vue 3 + Vite + Tailwind CSS.
 - **server/**: Backend menggunakan Express.js dan database Convex.
+
+Feel Free buat tanya ChatGPT, Deepseek, Claude AI, maupun Gemini untuk menjelaskan file di sisi client dan sisi server
