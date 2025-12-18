@@ -1,0 +1,73 @@
+# Peternakan Telur
+
+Aplikasi manajemen peternakan telur dengan stack CEVN
+C: Convex
+E: Express.js
+V: Vue.js
+N: Node.js
+
+## 📋 Prasyarat
+
+- [Node.js](https://nodejs.org/) (versi 16 atau lebih baru)
+- NPM (biasanya terinstall bersama Node.js)
+
+## 🚀 Cara Menjalankan Project
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/notbx57/peternakantelur.git
+cd peternakantelur
+```
+
+### 2. Setup Server dan Client
+
+Masuk ke folder server, install dependencies, dan konfigurasi environment variables.
+
+```bash
+cd server
+npm install
+```
+
+Kemudian masuk ke folder client, install dependencies, dan konfigurasi environment variables.
+
+```bash
+cd client
+npm install
+```
+
+**Konfigurasi Environment Variables:**
+ 
+untuk mendapatkan `.env.local` dan isi konfigurasi yang dibutuhkan:
+1. Jalankan command berikut untuk mendapatkan '.env.local' , `CONVEX_URL` dan `CONVEX_DEPLOYMENT`:
+   ```bash
+   npx convex dev --configure=existing --team rayyen --project peternakantelur
+   ```
+2. Generate random string untuk `JWT_SECRET` dan `SESSION_SECRET` (bisa menggunakan command yang ada di komentar file .env.example).
+
+### 3. Jalankan Server
+
+Ada 3 terminal yang harus dijalankan terpisah
+
+1. Convex :
+   ```bash
+   cd server
+   npx convex dev
+   ```
+2. Client :
+   ```bash
+   cd client
+   npm run dev
+   ```
+3. Server :
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+Aplikasi client akan berjalan di `http://localhost:5173`.
+
+## 🛠 Project Structure
+
+- **client/**: Frontend menggunakan Vue 3 + Vite + Tailwind CSS.
+- **server/**: Backend menggunakan Express.js dan database Convex.
