@@ -124,13 +124,13 @@ export function useDashboard() {
         isLoading.value = true
         try {
             // Fetch dashboard stats
-            const dashRes = await fetch(`http://localhost:3001/api/kandang/${kandangId}/dashboard`)
+            const dashRes = await fetch(`http://localhost:3001/api/dashboard/${kandangId}`)
             const dashData = await dashRes.json()
             kandangStore.dashboard = dashData
             kandangStore.currentKandang = kandangStore.kandangList.find(k => k._id === kandangId)
 
             // Fetch transaksi
-            const txRes = await fetch(`http://localhost:3001/api/kandang/${kandangId}/transactions`)
+            const txRes = await fetch(`http://localhost:3001/api/transactions/kandang/${kandangId}`)
             const txData = await txRes.json()
             transactions.value = txData
 

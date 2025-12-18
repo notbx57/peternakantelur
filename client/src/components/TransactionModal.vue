@@ -249,8 +249,8 @@ async function handleSubmit() {
     }
 
     const url = editing.value 
-      ? `http://localhost:3001/api/kandang/${currentKandang.value._id}/transactions/${props.transaction._id}`
-      : `http://localhost:3001/api/kandang/${currentKandang.value._id}/transactions`
+      ? `http://localhost:3001/api/transactions/kandang/${currentKandang.value._id}/${props.transaction._id}`
+      : `http://localhost:3001/api/transactions/kandang/${currentKandang.value._id}`
     
     const method = editing.value ? 'PUT' : 'POST'
     

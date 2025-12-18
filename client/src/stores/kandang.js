@@ -74,7 +74,7 @@ export const useKandangStore = defineStore('kandang', () => {
             if (filters.value.endDate) params.append('endDate', filters.value.endDate)
             if (filters.value.search) params.append('search', filters.value.search)
 
-            const res = await axios.get(`${API_URL}/kandang/${currentKandang.value._id}/transactions?${params}`)
+            const res = await axios.get(`${API_URL}/transactions/kandang/${currentKandang.value._id}?${params}`)
             transactions.value = res.data
         } catch (e) {
             error.value = e.message
@@ -91,7 +91,7 @@ export const useKandangStore = defineStore('kandang', () => {
         }
 
         try {
-            const res = await axios.get(`${API_URL}/kandang/${currentKandang.value._id}/dashboard`)
+            const res = await axios.get(`${API_URL}/dashboard/${currentKandang.value._id}`)
             dashboard.value = res.data
         } catch (e) {
             error.value = e.message
@@ -106,7 +106,7 @@ export const useKandangStore = defineStore('kandang', () => {
 
         loading.value = true
         try {
-            await axios.post(`${API_URL}/kandang/${currentKandang.value._id}/transactions`, data)
+            await axios.post(`${API_URL}/transactions/kandang/${currentKandang.value._id}`, data)
             await fetchTransactions()
             await fetchDashboard()
         } catch (e) {
@@ -125,7 +125,7 @@ export const useKandangStore = defineStore('kandang', () => {
 
         loading.value = true
         try {
-            await axios.put(`${API_URL}/kandang/${currentKandang.value._id}/transactions/${id}`, data)
+            await axios.put(`${API_URL}/transactions/kandang/${currentKandang.value._id}/${id}`, data)
             await fetchTransactions()
             await fetchDashboard()
         } catch (e) {
@@ -144,7 +144,7 @@ export const useKandangStore = defineStore('kandang', () => {
 
         loading.value = true
         try {
-            await axios.delete(`${API_URL}/kandang/${currentKandang.value._id}/transactions/${id}`)
+            await axios.delete(`${API_URL}/transactions/kandang/${currentKandang.value._id}/${id}`)
             await fetchTransactions()
             await fetchDashboard()
         } catch (e) {
