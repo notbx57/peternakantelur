@@ -10,7 +10,7 @@ export const asyncHandler = (fn) => (req, res, next) => {
 export const errorHandler = (err, req, res, next) => {
     console.error('❌ Error:', err.message);
 
-    //默认 500 error kalo ga ada status code spesifik
+    //500 error kalo ga ada status code spesifik
     const statusCode = err.statusCode || 500;
 
     res.status(statusCode).json({
