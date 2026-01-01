@@ -113,6 +113,7 @@ defineEmits(['toggle-sidebar'])
   .nav-toggle-btn {
     display: none;
   }
+}
   
   .nav-spacer {
     display: none;
