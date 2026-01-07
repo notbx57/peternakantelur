@@ -9,8 +9,5 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
-  },
-  server: {
-    allowedHosts: ['c8iekn-ip-157-85-206-137.tunnelmole.net']
   }
 })
