@@ -131,9 +131,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
-import axios from 'axios'
+import axios, { API_URL as BASE_API_URL } from '@/api/axios'
 
-const API_URL = 'http://localhost:3001/api'
+const API_URL = `${BASE_API_URL}/api`
 
 const route = useRoute()
 const authStore = useAuthStore()

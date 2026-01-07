@@ -70,16 +70,7 @@
           />
         </div>
 
-        <!-- Role (Read Only) -->
-        <div class="form-group">
-          <label class="form-label">Role</label>
-          <div class="role-badge">
-            <span :class="['badge', user?.role]">
-              {{ formatRole(user?.role) }}
-            </span>
-            <small class="hint">Role tidak dapat diubah</small>
-          </div>
-        </div>
+
 
         <!-- Actions -->
         <div class="modal-actions">
@@ -105,6 +96,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { useAuthStore } from '../stores/auth'
+import axios, { API_URL } from '@/api/axios'
 
 const emit = defineEmits(['close', 'saved'])
 const authStore = useAuthStore()
@@ -192,15 +184,8 @@ async function uploadAvatar(file) {
 
   try {
     // 1. Get upload URL from backend
-    const urlResponse = await fetch('http://localhost:3001/api/users/avatar/upload-url', {
-      method: 'POST'
-    })
-    
-    if (!urlResponse.ok) {
-      throw new Error('Gagal mendapatkan upload URL')
-    }
-    
-    const { uploadUrl } = await urlResponse.json()
+    const urlResponse = await axios.post(`${API_URL}/api/users/avatar/upload-url`)
+    const { uploadUrl } = urlResponse.data
     uploadProgress.value = 30
 
     // 2. Upload file to Convex storage
@@ -218,20 +203,12 @@ async function uploadAvatar(file) {
     uploadProgress.value = 70
 
     // 3. Update user avatar with storageId
-    const updateResponse = await fetch('http://localhost:3001/api/users/avatar', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: user._id,
-        storageId
-      })
+    const updateResponse = await axios.patch(`${API_URL}/api/users/avatar`, {
+      userId: user._id,
+      storageId
     })
 
-    if (!updateResponse.ok) {
-      throw new Error('Gagal update avatar')
-    }
-
-    const updatedUser = await updateResponse.json()
+    const updatedUser = updateResponse.data
     uploadProgress.value = 100
     
     // Update form data with new avatar URL
@@ -261,18 +238,14 @@ async function saveProfile() {
   
   saving.value = true
   try {
-    const response = await fetch('http://localhost:3001/api/users/profile', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: user._id,
-        name: formData.name,
-        avatar: formData.avatar || undefined,
-        phoneNumber: formData.phoneNumber || undefined
-      })
+    const response = await axios.patch(`${API_URL}/api/users/profile`, {
+      userId: user._id,
+      name: formData.name,
+      avatar: formData.avatar || undefined,
+      phoneNumber: formData.phoneNumber || undefined
     })
 
-    if (response.ok) {
+    if (response.status === 200) {
       authStore.setUser({
         ...user,
         name: formData.name,
@@ -300,14 +273,7 @@ async function saveProfile() {
   }
 }
 
-function formatRole(role) {
-  const roles = {
-    head_owner: 'Head Owner',
-    co_owner: 'Co Owner',
-    investor: 'Investor'
-  }
-  return roles[role] || role
-}
+
 </script>
 
 <style scoped>
@@ -555,34 +521,7 @@ function formatRole(role) {
   border-color: var(--primary);
 }
 
-.role-badge {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
 
-.badge {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.badge.head_owner {
-  background: #D1FAE5;
-  color: var(--primary);
-}
-
-.badge.co_owner {
-  background: #DBEAFE;
-  color: #3B82F6;
-}
-
-.badge.investor {
-  background: #FEF3C7;
-  color: #D97706;
-}
 
 .hint {
   color: var(--text-secondary);

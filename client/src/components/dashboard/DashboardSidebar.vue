@@ -34,29 +34,47 @@
     <div class="sidebar-header">
       <div class="brand">
         <span class="brand-icon">🐔</span>
-        <span class="brand-name">Peternakan</span>
+        <span class="brand-name">Endogvest</span>
       </div>
       <button class="close-sidebar" @click="$emit('close')">✕</button>
     </div>
     
     <nav class="sidebar-nav">
-      <!-- Menu Dashboard -->
-      <router-link to="/dashboard" class="sidebar-item active" @click="$emit('close')">
-        <span class="sidebar-icon">📊</span>
-        <span>Dashboard</span>
+      <!-- Menu Market (Browse) -->
+      <router-link to="/market" class="sidebar-item" @click="$emit('close')">
+        <span class="sidebar-icon">🏪</span>
+        <span>Market</span>
       </router-link>
       
-      <!-- Tambah Transaksi -->
+      <!-- Create Market+ -->
+      <router-link to="/market/create" class="sidebar-item create-market" @click="$emit('close')">
+        <span class="sidebar-icon">➕</span>
+        <span>Create Market+</span>
+      </router-link>
+      
+      <!-- Your Market -->
+      <router-link to="/market/my" class="sidebar-item" @click="$emit('close')">
+        <span class="sidebar-icon">🏠</span>
+        <span>Your Market</span>
+      </router-link>
+
+      <!-- Portfolio -->
+      <router-link to="/portfolio" class="sidebar-item" @click="$emit('close')">
+        <span class="sidebar-icon">💼</span>
+        <span>Portfolio</span>
+      </router-link>
+      
+      <!-- Tambah Transaksi (hidden for now, will be in market detail) -->
       <button 
-        v-if="canAddTransaction" 
+        v-if="canAddTransaction && currentKandang" 
         class="sidebar-item"
         @click="$emit('addTransaction')"
       >
-        <span class="sidebar-icon">➕</span>
+        <span class="sidebar-icon">💰</span>
         <span>Tambah Transaksi</span>
       </button>
       
-      <!-- Anggota Kandang (khusus head owner) -->
+      <!-- Anggota Kandang (khusus head owner, in context of kandang) -->
       <router-link 
         v-if="isHeadOwner && currentKandang" 
         :to="`/kandang/${currentKandang._id}/members`" 
@@ -67,13 +85,7 @@
         <span>Anggota Kandang</span>
       </router-link>
       
-      <!-- Notifikasi -->
-      <button class="sidebar-item" @click="$emit('openNotifications')">
-        <span class="sidebar-icon">🔔</span>
-        <span>Notifikasi</span>
-        <span v-if="unreadCount > 0" class="notification-badge">{{ unreadCount }}</span>
-      </button>
-      
+
       <div class="sidebar-divider"></div>
       
       <!-- User Section - klik buat edit profil -->
@@ -86,7 +98,7 @@
         </div>
         <div class="user-info">
           <div class="user-name">{{ user?.name || 'User' }}</div>
-          <div class="user-role">{{ formatRole(user?.role) }}</div>
+          <div class="user-email">{{ user?.email || '' }}</div>
         </div>
       </div>
       
@@ -102,7 +114,7 @@
 import { computed } from 'vue'
 
 // Emits
-defineEmits(['close', 'addTransaction', 'editProfile', 'logout', 'openNotifications'])
+defineEmits(['close', 'addTransaction', 'editProfile', 'logout'])
 
 // Props tambahan buat notifikasi
 const props = defineProps({
@@ -125,10 +137,6 @@ const props = defineProps({
   isHeadOwner: {
     type: Boolean,
     default: false
-  },
-  unreadCount: {
-    type: Number,
-    default: 0
   }
 })
 
@@ -144,16 +152,7 @@ const avatarStyle = computed(() => {
   return {}
 })
 
-// Format role biar enak dibaca
-function formatRole(role) {
-  const roles = {
-    head_owner: 'Head Owner',
-    co_owner: 'Co Owner',
-    investor: 'Investor',
-    user: 'User'
-  }
-  return roles[role] || role || 'Guest'
-}
+
 </script>
 
 <style scoped>
@@ -293,6 +292,18 @@ button {
   color: var(--primary);
 }
 
+/* Create Market+ button - special styling */
+.sidebar-item.create-market {
+  background: linear-gradient(135deg, var(--primary), #10B981);
+  color: white;
+  font-weight: 600;
+}
+
+.sidebar-item.create-market:hover {
+  background: linear-gradient(135deg, #047857, #059669);
+  transform: scale(1.02);
+}
+
 .sidebar-icon {
   font-size: 1.25rem;
 }
@@ -341,10 +352,12 @@ button {
   font-weight: 600;
 }
 
-.user-role {
+.user-email {
   font-size: 0.75rem;
   color: var(--text-secondary);
-  text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Logout button */
@@ -367,16 +380,5 @@ button {
   transform: scale(1.02);
 }
 
-/* Notification badge */
-.notification-badge {
-  margin-left: auto;
-  background: #EF4444;
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 10px;
-  min-width: 18px;
-  text-align: center;
-}
+
 </style>

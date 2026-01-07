@@ -23,24 +23,7 @@ function getConvexClient() {
     return convex;
 }
 
-// Middleware buat cek apakah user udah login
-export const isAuthenticated = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Unauthorized - belom login nih' });
-    }
-
-    const token = authHeader.substring(7);
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(401).json({ error: 'Token invalid atau expired' });
-    }
-};
+import { isAuthenticated } from '../middleware/auth.js';
 
 // Validasi password - min 8 char dengan special character
 function validatePassword(password) {
@@ -56,6 +39,18 @@ function validatePassword(password) {
 
     return { valid: true };
 }
+
+// Cek Username Availability
+router.get('/check-username/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const client = getConvexClient();
+        const user = await client.query(api.users.getByUsername, { username });
+        res.json({ available: !user });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // REGISTER - Daftar akun baru
 router.post('/register', async (req, res) => {
@@ -100,14 +95,13 @@ router.post('/register', async (req, res) => {
             passwordHash
         });
 
-        // Generate JWT token
+        // Generate JWT token - tidak ada global role lagi!
         const token = jwt.sign(
             {
                 userId,
                 email,
                 username,
-                name,
-                role: 'investor' // Default role
+                name
             },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
@@ -121,8 +115,7 @@ router.post('/register', async (req, res) => {
                 userId,
                 email,
                 username,
-                name,
-                role: 'investor'
+                name
             }
         });
 
@@ -173,14 +166,13 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Email/username atau password salah' });
         }
 
-        // Generate JWT token
+        // Generate JWT token - tidak ada global role!
         const token = jwt.sign(
             {
                 userId: user._id,
                 email: user.email,
                 username: user.username,
-                name: user.name,
-                role: user.role
+                name: user.name
             },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
@@ -195,7 +187,6 @@ router.post('/login', async (req, res) => {
                 email: user.email,
                 username: user.username,
                 name: user.name,
-                role: user.role,
                 avatar: user.avatar || null
             }
         });

@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import axios from 'axios'
+import axios, { API_URL as BASE_API_URL } from '../api/axios'
 
-const API_URL = 'http://localhost:3001/api'
+const API_URL = `${BASE_API_URL}/api`
 
 // Helper to check if ID is a valid Convex ID (not demo ID)
 function isValidConvexId(id) {

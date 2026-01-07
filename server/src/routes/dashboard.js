@@ -2,7 +2,12 @@ import express from 'express';
 import { api } from '../../convex/_generated/api.js';
 import convex from '../config/convex.js';
 
+import { isAuthenticated } from '../middleware/auth.js';
+
 const router = express.Router();
+
+// Semua rute dashboard butuh login
+router.use(isAuthenticated);
 
 // ============ DASHBOARD ============
 

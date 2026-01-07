@@ -1,0 +1,82 @@
+{
+  "feature_columns": [
+    "amount_log",
+    "amount_zscore_category",
+    "amount_zscore_farm",
+    "amount_to_category_median",
+    "category_type_mismatch",
+    "is_weekend",
+    "is_month_end",
+    "is_night_time",
+    "category_frequency",
+    "daily_transaction_count",
+    "is_potential_duplicate",
+    "exceeds_threshold",
+    "category_encoded",
+    "farm_encoded",
+    "type_encoded",
+    "day_of_week",
+    "day_of_month",
+    "hour_of_day",
+    "month"
+  ],
+  "expense_categories": [
+    "Pakan",
+    "Obat & Vaksin",
+    "Gas Elpiji",
+    "Peralatan",
+    "Transportasi",
+    "Admin Bank",
+    "Pembangunan",
+    "Pullet/DOC",
+    "Listrik",
+    "Gaji Karyawan",
+    "Lain-lain"
+  ],
+  "income_categories": [
+    "Penjualan Telur",
+    "Penjualan Ayam",
+    "Bunga Bank",
+    "Investasi",
+    "Lainnya"
+  ],
+  "anomaly_thresholds": {
+    "Pullet/DOC": 100000000,
+    "Pembangunan": 100000000,
+    "Investasi": 200000000,
+    "Penjualan Telur": 10000000,
+    "Penjualan Ayam": 10000000,
+    "Bunga Bank": 15000
+  },
+  "category_mapping": {
+    "Admin Bank": 0,
+    "Bunga Bank": 1,
+    "Gaji Karyawan": 2,
+    "Gas Elpiji": 3,
+    "Investasi": 4,
+    "Lain-lain": 5,
+    "Lainnya": 6,
+    "Listrik": 7,
+    "Obat & Vaksin": 8,
+    "Pakan": 9,
+    "Pembangunan": 10,
+    "Penjualan Ayam": 11,
+    "Penjualan Telur": 12,
+    "Peralatan": 13,
+    "Pullet/DOC": 14,
+    "Transportasi": 15
+  },
+  "type_mapping": {
+    "expense": 0,
+    "income": 1
+  },
+  "date_range": {
+    "start": "2025-09-01",
+    "end": "2026-01-31"
+  },
+  "farm_ids": [
+    "FARM_001",
+    "FARM_002",
+    "FARM_003"
+  ]
+}

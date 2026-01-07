@@ -41,14 +41,6 @@
         </button>
       </form>
 
-      <!-- Demo Login Button -->
-      <div class="demo-section" ref="demoRef">
-        <p class="demo-text">Atau coba akun demo:</p>
-        <button @click="loginDemo" class="btn-demo" :disabled="loading">
-          🐔 Masuk sebagai Admin Demo
-        </button>
-      </div>
-
       <!-- Register link -->
       <p class="register-link" ref="linkRef">
         Belum punya akun? 
@@ -68,6 +60,8 @@ import gsap from 'gsap'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
+import { API_URL } from '@/api/axios'
 
 // Form data
 const identifier = ref('')
@@ -157,7 +151,7 @@ async function handleLogin() {
   error.value = ''
 
   try {
-    const response = await fetch('http://localhost:3001/auth/login', {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -184,7 +178,7 @@ async function handleLogin() {
     })
 
     // Animasi pop-out sebelum redirect
-    navigateWithAnimation('/dashboard')
+    navigateWithAnimation('/market/my')
 
   } catch (err) {
     console.error('Login error:', err)

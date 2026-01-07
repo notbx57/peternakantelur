@@ -24,6 +24,7 @@ export const getByUsername = query({
 });
 
 // Create user baru - dipake pas register
+// Tidak ada global role lagi! Semua user sama
 export const create = mutation({
     args: {
         email: v.string(),
@@ -52,13 +53,12 @@ export const create = mutation({
             throw new Error("Username sudah dipakai");
         }
 
-        // Bikin user baru - default role user (harus request buat jadi investor)
+        // Bikin user baru - tidak ada global role lagi!
         return await ctx.db.insert("users", {
             email: args.email,
             username: args.username,
             name: args.name,
             passwordHash: args.passwordHash,
-            role: "user",
             createdAt: Date.now(),
         });
     },
@@ -72,16 +72,7 @@ export const get = query({
     },
 });
 
-// Update role user - cuma head_owner yang boleh ganti role orang
-export const updateRole = mutation({
-    args: {
-        userId: v.id("users"),
-        role: v.union(v.literal("head_owner"), v.literal("co_owner"), v.literal("investor")),
-    },
-    handler: async (ctx, args) => {
-        await ctx.db.patch(args.userId, { role: args.role });
-    },
-});
+
 
 // Edit profil user - bisa ganti nama, avatar, sama nomor HP
 // Role ga bisa diedit di sini, harus lewat updateRole
@@ -151,7 +142,6 @@ export const updateAvatar = mutation({
                 const oldStorageId = urlParts[urlParts.length - 1];
 
                 // Cek kalo ini beneran Convex storage ID (mulai dengan 'kg')
-                // Kalo dari Google atau external, skip aja
                 if (oldStorageId && oldStorageId.startsWith('kg')) {
                     await ctx.storage.delete(oldStorageId as any);
                     console.log(`✅ Deleted old avatar: ${oldStorageId}`);
@@ -190,5 +180,41 @@ export const listAll = query({
     args: {},
     handler: async (ctx) => {
         return await ctx.db.query("users").collect();
+    },
+});
+
+// Search users by username - buat dropdown invite member
+// Cari users yang usernamenya dimulai dengan term tertentu
+export const searchByUsername = query({
+    args: {
+        term: v.string(),
+        limit: v.optional(v.number()),
+        excludeUserId: v.optional(v.id("users")), // Exclude current user
+    },
+    handler: async (ctx, args) => {
+        const searchTerm = args.term.toLowerCase();
+        const limit = args.limit ?? 10;
+
+        // Note: Convex belum punya native "startsWith" query
+        // Jadi kita fetch semua users dan filter manual
+        // Untuk production dengan banyak users, pertimbangkan search index
+        const users = await ctx.db.query("users").collect();
+
+        return users
+            .filter(u => {
+                // Exclude user tertentu (biasanya current user)
+                if (args.excludeUserId && u._id === args.excludeUserId) {
+                    return false;
+                }
+                // Filter by username prefix (case insensitive)
+                return u.username.toLowerCase().startsWith(searchTerm);
+            })
+            .slice(0, limit)
+            .map(u => ({
+                _id: u._id,
+                username: u.username,
+                name: u.name,
+                avatar: u.avatar
+            }));
     },
 });

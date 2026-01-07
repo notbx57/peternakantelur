@@ -79,6 +79,7 @@ export const create = mutation({
     args: {
         kandangId: v.id("kandang"),
         categoryId: v.id("categories"),
+        categoryName: v.string(), // Nama kategori dari modal
         createdBy: v.id("users"),
         amount: v.number(),
         type: v.union(v.literal("income"), v.literal("expense")),
@@ -98,6 +99,7 @@ export const update = mutation({
     args: {
         id: v.id("transactions"),
         categoryId: v.optional(v.id("categories")),
+        categoryName: v.optional(v.string()), // Nama kategori kalo diganti
         amount: v.optional(v.number()),
         type: v.optional(v.union(v.literal("income"), v.literal("expense"))),
         description: v.optional(v.string()),
@@ -183,6 +185,7 @@ export const batchCreate = mutation({
             v.object({
                 kandangId: v.id("kandang"),
                 categoryId: v.id("categories"),
+                categoryName: v.string(), // Nama kategori
                 createdBy: v.id("users"),
                 amount: v.number(),
                 type: v.union(v.literal("income"), v.literal("expense")),

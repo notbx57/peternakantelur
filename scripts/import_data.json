@@ -1,0 +1,801 @@
+{
+  "kandang": [
+    "AYAM PERTAMA",
+    "AYAM KEDUA",
+    "Kandang KEVIN"
+  ],
+  "transactions": [
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya transfer",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1756670400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian pakan 3 ton @7.400",
+      "amount": 22200000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1756756800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian 45 gas elpiji @24.000",
+      "amount": 1080000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1756929600000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Upah vaksin ND 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1757016000000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Penjualan telur 2.500 butir @1.800",
+      "amount": 4500000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1757102400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian obat vitamin",
+      "amount": 850000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1757275200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya administrasi rekening Bank",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1757361600000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian pakan 2.5 ton @7.350",
+      "amount": 18375000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1756843200000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 52 gas elpiji @24.000",
+      "amount": 1248000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1757016000000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin IB 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1757188800000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Transportasi pakan",
+      "amount": 450000,
+      "type": "expense",
+      "category": "Transportasi",
+      "date": 1757275200000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "DP pembayaran pullet Kevin Farm",
+      "amount": 180000000,
+      "type": "income",
+      "category": "Investasi",
+      "date": 1756756800000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembayaran pullet sebanyak 5.000 ekor @12.800",
+      "amount": 64000000,
+      "type": "expense",
+      "category": "Pullet/DOC",
+      "date": 1756929600000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian 75 gas elpiji @24.000",
+      "amount": 1800000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1757102400000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian kertas koran 25 kg",
+      "amount": 230000,
+      "type": "expense",
+      "category": "Lain-lain",
+      "date": 1757188800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian pakan 3 ton @7.450",
+      "amount": 22350000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1759348800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Penjualan telur 2.800 butir @1.850",
+      "amount": 5180000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1759435200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian 48 gas elpiji @24.500",
+      "amount": 1176000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1759608000000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Upah vaksin GUMBORO 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1759780800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya admin",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1759867200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian obat anti stress",
+      "amount": 1250000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1759953600000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian pakan 2.8 ton @7.400",
+      "amount": 20720000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1759521600000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 55 gas elpiji @24.500",
+      "amount": 1347500,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1759694400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Penjualan ayam afkir 120 ekor @45.000",
+      "amount": 5400000,
+      "type": "income",
+      "category": "Penjualan Ayam",
+      "date": 1759867200000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin ND 4 orang @100.000",
+      "amount": 400000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1760040000000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya administrasi rekening",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1760126400000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian pakan 3.5 ton @7.450",
+      "amount": 26075000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1759435200000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian 82 gas elpiji @24.500",
+      "amount": 2009000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1759608000000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Upah vaksin KILL suntik 4 orang @100.000",
+      "amount": 400000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1759780800000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian obat dan vitamin komplit",
+      "amount": 15500000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1759953600000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian pakan 3.2 ton @7.500",
+      "amount": 24000000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1762027200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Penjualan telur 3.000 butir @1.900",
+      "amount": 5700000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1762113600000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian 50 gas elpiji @25.000",
+      "amount": 1250000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1762286400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Upah vaksin IB 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1762459200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian lampu LED 20 watt kuning 15 buah",
+      "amount": 385000,
+      "type": "expense",
+      "category": "Peralatan",
+      "date": 1762545600000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya admin",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1762718400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian pakan 2.9 ton @7.500",
+      "amount": 21750000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1762200000000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 58 gas elpiji @25.000",
+      "amount": 1450000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1762372800000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Penjualan telur 1.800 butir @1.900",
+      "amount": 3420000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1762545600000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin GUMBORO 4 orang @100.000",
+      "amount": 400000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1762632000000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya administrasi rekening",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1762718400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Bunga rekening",
+      "amount": 9500,
+      "type": "income",
+      "category": "Admin Bank",
+      "date": 1762718400000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian pakan 3.8 ton @7.500",
+      "amount": 28500000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1762113600000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian 88 gas elpiji @25.000",
+      "amount": 2200000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1762286400000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Upah vaksin ND 4 orang @100.000",
+      "amount": 400000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1762459200000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Penjualan telur 2.200 butir @1.900",
+      "amount": 4180000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1762632000000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian pakan 3.3 ton @7.550",
+      "amount": 24915000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1764619200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Penjualan telur 3.200 butir @1.950",
+      "amount": 6240000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1764705600000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian 52 gas elpiji @25.000",
+      "amount": 1300000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1764878400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Upah vaksin KILL 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1765051200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian obat multivitamin",
+      "amount": 980000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1765137600000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya admin",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1765310400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya administrasi rekening Bank",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1765310400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian pakan 3 ton @7.550",
+      "amount": 22650000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1764792000000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 60 gas elpiji @25.000",
+      "amount": 1500000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1764964800000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Penjualan telur 2.000 butir @1.950",
+      "amount": 3900000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1765137600000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin IB 4 orang @100.000",
+      "amount": 400000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1765224000000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya transfer",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1765310400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Transportasi pakan",
+      "amount": 500000,
+      "type": "expense",
+      "category": "Transportasi",
+      "date": 1765396800000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian pakan 4 ton @7.550",
+      "amount": 30200000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1764705600000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian 92 gas elpiji @25.000",
+      "amount": 2300000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1764878400000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Penjualan telur 2.500 butir @1.950",
+      "amount": 4875000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1765051200000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Upah vaksin GUMBORO 4 orang @100.000",
+      "amount": 400000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1765224000000
+    },
+    {
+      "kandang": "Kandang KEVIN",
+      "description": "Pembelian peralatan tempat pakan 10 buah",
+      "amount": 1850000,
+      "type": "expense",
+      "category": "Peralatan",
+      "date": 1765396800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya transfer",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya transfer",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Biaya administrasi rekening Bank",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian pakan 3.5 ton @7.600",
+      "amount": 26600000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1767286800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Penjualan telur 3.500 butir @2.000",
+      "amount": 7000000,
+      "type": "income",
+      "category": "Penjualan Telur",
+      "date": 1767373200000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Pembelian 55 gas elpiji @25.500",
+      "amount": 1402500,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1767546000000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Upah vaksin ND 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1767718800000
+    },
+    {
+      "kandang": "AYAM PERTAMA",
+      "description": "Bunga rekening",
+      "amount": 11250,
+      "type": "income",
+      "category": "Admin Bank",
+      "date": 1767805200000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "DP pembayaran pullet KEDUA Kevin Farm",
+      "amount": 150000000,
+      "type": "income",
+      "category": "Investasi",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembayaran pullet KEDUA sebanyak 4.500 ekor @12.656",
+      "amount": 56952000,
+      "type": "expense",
+      "category": "Pullet/DOC",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya admin",
+      "amount": 6500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 68 gas elpiji @24.000",
+      "amount": 1632000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Gula & Jahe",
+      "amount": 50000,
+      "type": "expense",
+      "category": "Lain-lain",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian kertas koran sebanyak 20 kg",
+      "amount": 184500,
+      "type": "expense",
+      "category": "Lain-lain",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Bongkar @100.000",
+      "amount": 500000,
+      "type": "expense",
+      "category": "Transportasi",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian pakan 2 ton @7.300",
+      "amount": 14600000,
+      "type": "expense",
+      "category": "Pakan",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya admin",
+      "amount": 6500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Mobil angkutan",
+      "amount": 500000,
+      "type": "expense",
+      "category": "Transportasi",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Bongkar @100.000",
+      "amount": 100000,
+      "type": "expense",
+      "category": "Transportasi",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian obat untuk pembesaran oemah putra D&R",
+      "amount": 13970000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 30 buah lampu bohlam LED 15 watt kuning",
+      "amount": 771918,
+      "type": "expense",
+      "category": "Peralatan",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 2 buah timbangan",
+      "amount": 777963,
+      "type": "expense",
+      "category": "Peralatan",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin 3 orang @100.000 tetes mata NDIB",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya administrasi kartu debit",
+      "amount": 10000,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin GUMBORO 3 orang @100.000",
+      "amount": 300000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Upah vaksin KILL suntik leher 4 orang",
+      "amount": 800000,
+      "type": "expense",
+      "category": "Obat & Vaksin",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 108 gas elpiji @24.000 (sudah dibeli 64, sisa 44)",
+      "amount": 1056000,
+      "type": "expense",
+      "category": "Gas Elpiji",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "# Rudi",
+      "amount": 2500000,
+      "type": "expense",
+      "category": "Lain-lain",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Uang makan 1 orang",
+      "amount": 500000,
+      "type": "expense",
+      "category": "Lain-lain",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya admin",
+      "amount": 2500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pembelian 1 unit motor Jupiter 2011",
+      "amount": 3000000,
+      "type": "expense",
+      "category": "Peralatan",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Service motor",
+      "amount": 1135000,
+      "type": "expense",
+      "category": "Peralatan",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Biaya administrasi rekening",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Pajak rekening",
+      "amount": 1750,
+      "type": "expense",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    },
+    {
+      "kandang": "AYAM KEDUA",
+      "description": "Bunga rekening",
+      "amount": 8750,
+      "type": "income",
+      "category": "Admin Bank",
+      "date": 1767200400000
+    }
+  ]
+}

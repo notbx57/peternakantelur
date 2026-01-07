@@ -2,7 +2,12 @@ import express from 'express';
 import { api } from '../../convex/_generated/api.js';
 import convex from '../config/convex.js';
 
+import { isAuthenticated } from '../middleware/auth.js';
+
 const router = express.Router();
+
+// Semua rute user butuh login
+router.use(isAuthenticated);
 
 // ============ USER MANAGEMENT ============
 
@@ -10,6 +15,24 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const users = await convex.query(api.users.listAll);
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Search users by username - buat dropdown invite member
+router.get('/search', async (req, res) => {
+    try {
+        const { term, limit, excludeUserId } = req.query;
+        if (!term || term.length < 1) {
+            return res.json([]);
+        }
+        const users = await convex.query(api.users.searchByUsername, {
+            term,
+            limit: limit ? parseInt(limit) : 10,
+            excludeUserId: excludeUserId || undefined
+        });
         res.json(users);
     } catch (error) {
         res.status(500).json({ error: error.message });

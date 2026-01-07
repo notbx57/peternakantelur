@@ -3,17 +3,12 @@ import { v } from "convex/values";
 
 export default defineSchema({
     // Tabel users - nyimpen data user yang login
+    // Tidak ada global role! Semua user sama, role hanya ada di context market/kandang
     users: defineTable({
         email: v.string(),
         username: v.string(), // Username unique buat login
         name: v.string(),
         passwordHash: v.string(), // Password yang udah di-hash pake bcrypt
-        role: v.union(
-            v.literal("head_owner"),
-            v.literal("co_owner"),
-            v.literal("investor"),
-            v.literal("user") // Default role buat user baru
-        ),
         avatar: v.optional(v.string()),
         phoneNumber: v.optional(v.string()), // Nomor HP opsional
         createdAt: v.number(),
@@ -21,22 +16,53 @@ export default defineSchema({
         .index("by_email", ["email"])
         .index("by_username", ["username"]),
 
-    // Tabel kandang - buat nyimpen data kandang ayam
-    kandang: defineTable({
+    // Tabel markets - parent entity untuk kandang, produk, members
+    // Setiap user bisa punya max 2 market
+    // ownerId = head_owner market (creator)
+    markets: defineTable({
         name: v.string(),
-        headOwnerId: v.id("users"),
+        handle: v.string(), // Unique handle seperti @kampoengendok (tanpa @)
         description: v.optional(v.string()),
+        ownerId: v.id("users"),       // head_owner (creator market)
+        logo: v.optional(v.string()), // URL logo market
         isActive: v.boolean(),
         createdAt: v.number(),
     })
-        .index("by_headOwner", ["headOwnerId"]),
+        .index("by_owner", ["ownerId"])
+        .index("by_active", ["isActive"])
+        .index("by_handle", ["handle"]),
 
-    // Tabel member kandang - buat nyimpen co-owner sama investor
-    kandangMembers: defineTable({
+    // Tabel member market - co-owner di level market
+    // Head owner tidak perlu masuk sini karena sudah ada di markets.ownerId
+    marketMembers: defineTable({
+        marketId: v.id("markets"),
+        userId: v.id("users"),
+        role: v.literal("co_owner"), // Hanya co_owner di level market
+        addedAt: v.number(),
+    })
+        .index("by_market", ["marketId"])
+        .index("by_user", ["userId"])
+        .index("by_market_user", ["marketId", "userId"]),
+
+    // Tabel kandang - buat nyimpen data kandang ayam
+    // Setiap kandang WAJIB punya market
+    kandang: defineTable({
+        name: v.string(),
+        marketId: v.id("markets"), // Relasi ke market (required!)
+        description: v.optional(v.string()),
+        avatar: v.optional(v.string()), // URL avatar/gambar kandang
+        isActive: v.boolean(),
+        createdAt: v.number(),
+    })
+        .index("by_market", ["marketId"]),
+
+    // Tabel investor kandang - nyimpen siapa aja yang invest di kandang
+    // Investor = user yang invest minimal di 1 kandang dalam suatu market
+    kandangInvestors: defineTable({
         kandangId: v.id("kandang"),
         userId: v.id("users"),
-        role: v.union(v.literal("co_owner"), v.literal("investor")),
-        addedAt: v.number(),
+        investmentAmount: v.number(), // Jumlah investasi
+        investedAt: v.number(),
     })
         .index("by_kandang", ["kandangId"])
         .index("by_user", ["userId"])
@@ -54,6 +80,7 @@ export default defineSchema({
     transactions: defineTable({
         kandangId: v.id("kandang"),
         categoryId: v.id("categories"),
+        categoryName: v.string(), // Nama kategori (denormalisasi buat gampang display)
         createdBy: v.id("users"),
         amount: v.number(),
         type: v.union(v.literal("income"), v.literal("expense")),
@@ -65,23 +92,4 @@ export default defineSchema({
         .index("by_kandang", ["kandangId"])
         .index("by_kandang_date", ["kandangId", "date"])
         .index("by_category", ["categoryId"]),
-
-    // Tabel notifikasi - buat request investor dan response-nya 🔔
-    notifications: defineTable({
-        fromUserId: v.id("users"), // User yang ngirim request
-        toUserId: v.id("users"), // Head owner yang nerima
-        kandangId: v.id("kandang"), // Kandang yang di-request
-        type: v.union(
-            v.literal("investor_request"), // Request dari user
-            v.literal("request_accepted"), // Di-approve head owner
-            v.literal("request_rejected") // Di-reject head owner
-        ),
-        message: v.string(),
-        isRead: v.boolean(),
-        createdAt: v.number(),
-    })
-        .index("by_toUser", ["toUserId"])
-        .index("by_toUser_unread", ["toUserId", "isRead"])
-        .index("by_fromUser", ["fromUserId"])
-        .index("by_kandang", ["kandangId"]),
 });

@@ -8,9 +8,11 @@ import usersRoutes from './routes/users.js';
 import kandangRoutes from './routes/kandang.js';
 import transactionsRoutes from './routes/transactions.js';
 import categoriesRoutes from './routes/categories.js';
-import notificationsRoutes from './routes/notifications.js';
+import marketsRoutes from './routes/markets.js';
+
 import dashboardRoutes from './routes/dashboard.js';
 import seedRoutes from './routes/seed.js';
+import anomalyRoutes from './routes/anomaly.js';
 
 // Import error handler
 import { errorHandler } from './middleware/errorHandler.js';
@@ -56,14 +58,16 @@ app.use('/api/transactions', transactionsRoutes);
 // Category routes - list & seed categories
 app.use('/api/categories', categoriesRoutes);
 
-// Notification routes - notif system buat request investor
-app.use('/api/notifications', notificationsRoutes);
-
+// Market routes - CRUD markets
+app.use('/api/markets', marketsRoutes);
 // Dashboard routes - dashboard stats per kandang
 app.use('/api/dashboard', dashboardRoutes);
 
 // Seed routes - seeding data development
 app.use('/api/seed', seedRoutes);
+
+// Anomaly detection routes - ML-powered anomaly detection API
+app.use('/api/anomaly', anomalyRoutes);
 
 // ============ ERROR HANDLING ============
 
@@ -72,7 +76,15 @@ app.use(errorHandler);
 
 // ============ START SERVER ============
 
-app.listen(PORT, () => {
-  console.log(`🐔 Server running on http://localhost:${PORT}`);
-  console.log(`📡 API ready to serve requests`);
-});
+// ============ START SERVER ============
+
+// Only listen if running locally/directly (not imported as a module)
+import { fileURLToPath } from 'url';
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  app.listen(PORT, () => {
+    console.log(`🐔 Server running on http://localhost:${PORT}`);
+    console.log(`📡 API ready to serve requests`);
+  });
+}
+
+export default app;

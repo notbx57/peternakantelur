@@ -14,6 +14,7 @@ import { ref, computed, nextTick } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { useKandangStore } from '../stores/kandang'
 import gsap from 'gsap'
+import axios, { API_URL } from '../api/axios'
 
 export function useDashboard() {
     // Ambil store
@@ -25,8 +26,6 @@ export function useDashboard() {
     const showAddModal = ref(false)
     const showProfileModal = ref(false)
     const sidebarOpen = ref(false)
-    const notificationOpen = ref(false) // State buat notification panel
-    const unreadCount = ref(0) // Jumlah notifikasi unread
     const selectedKandangId = ref('')
     const transactions = ref([])
 
@@ -80,12 +79,10 @@ export function useDashboard() {
         isLoading.value = true
         try {
             const userId = authStore.user?._id
-            const url = userId
-                ? `http://localhost:3001/api/kandang/public?userId=${userId}`
-                : 'http://localhost:3001/api/kandang/public'
+            const params = userId ? { userId } : {}
 
-            const response = await fetch(url)
-            const list = await response.json()
+            const response = await axios.get(`${API_URL}/api/kandang/public`, { params })
+            const list = response.data
 
             if (list && list.length > 0) {
                 kandangStore.kandangList = list
@@ -95,11 +92,6 @@ export function useDashboard() {
                 }
                 await loadDashboardData(selectedKandangId.value)
             }
-
-            // Load notification count kalo login
-            if (userId) {
-                await fetchUnreadCount()
-            }
         } catch (e) {
             console.error('Gagal load kandang:', e)
         } finally {
@@ -107,31 +99,21 @@ export function useDashboard() {
         }
     }
 
-    // Fetch jumlah notifikasi unread
-    async function fetchUnreadCount() {
-        if (!authStore.user?._id) return
-        try {
-            const res = await fetch(`http://localhost:3001/api/notifications/unread-count?userId=${authStore.user._id}`)
-            const data = await res.json()
-            unreadCount.value = data.count || 0
-        } catch (e) {
-            console.error('Gagal fetch unread count:', e)
-        }
-    }
+
 
     // Load data dashboard sama transaksi
     async function loadDashboardData(kandangId) {
         isLoading.value = true
         try {
             // Fetch dashboard stats
-            const dashRes = await fetch(`http://localhost:3001/api/dashboard/${kandangId}`)
-            const dashData = await dashRes.json()
+            const dashRes = await axios.get(`${API_URL}/api/dashboard/${kandangId}`)
+            const dashData = dashRes.data
             kandangStore.dashboard = dashData
             kandangStore.currentKandang = kandangStore.kandangList.find(k => k._id === kandangId)
 
             // Fetch transaksi
-            const txRes = await fetch(`http://localhost:3001/api/transactions/kandang/${kandangId}`)
-            const txData = await txRes.json()
+            const txRes = await axios.get(`${API_URL}/api/transactions/kandang/${kandangId}`)
+            const txData = txRes.data
             transactions.value = txData
 
             // Jalanin animasi setelah data masuk
@@ -257,8 +239,6 @@ export function useDashboard() {
         showAddModal,
         showProfileModal,
         sidebarOpen,
-        notificationOpen,
-        unreadCount,
         selectedKandangId,
         transactions,
         filterType,
@@ -278,7 +258,6 @@ export function useDashboard() {
         // Methods
         loadKandangList,
         loadDashboardData,
-        fetchUnreadCount,
         onKandangChange,
         animateContent,
         onTransactionSaved,

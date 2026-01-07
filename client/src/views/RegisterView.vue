@@ -38,8 +38,14 @@
             placeholder="username (3-20 karakter)"
             required
             :disabled="loading"
+            @input="checkUsername"
+            :class="{ 'border-red': usernameStatus.message && !usernameStatus.available, 'border-green': usernameStatus.available }"
           />
-          <small>Hanya huruf, angka, dan underscore</small>
+          <small v-if="usernameStatus.loading" class="text-gray">Memeriksa ketersediaan...</small>
+          <small v-else-if="usernameStatus.message" :class="usernameStatus.available ? 'text-green' : 'text-red'">
+            {{ usernameStatus.message }}
+          </small>
+          <small v-else>Hanya huruf, angka, dan underscore</small>
         </div>
 
         <div class="form-group">
@@ -79,7 +85,7 @@
           />
         </div>
 
-        <button type="submit" class="btn-register" :disabled="loading">
+        <button type="submit" class="btn-register" :disabled="loading || (form.username.length >= 3 && !usernameStatus.available && !usernameStatus.loading)">
           {{ loading ? 'Memuat...' : 'Daftar' }}
         </button>
       </form>
@@ -96,10 +102,12 @@
 </template>
 
 <script setup>
+
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import gsap from 'gsap'
+import { API_URL } from '@/api/axios'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -115,6 +123,49 @@ const form = reactive({
 const loading = ref(false)
 const error = ref('')
 const success = ref('')
+
+// Username Check
+const usernameStatus = ref({
+  loading: false,
+  available: false,
+  message: '',
+  valid: true
+})
+let debounceTimer = null
+
+function checkUsername() {
+  if (debounceTimer) clearTimeout(debounceTimer)
+  
+  const username = form.username
+  usernameStatus.value = { loading: false, available: false, message: '', valid: true }
+
+  if (!username) return
+  if (username.length < 3) return
+
+  // Regex check logic already in handleRegister, but good to check here too for UI
+  const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/
+  if (!usernameRegex.test(username)) {
+     // Don't show error yet vs show? Just wait server check? 
+     // Server checks same regex usually.
+  }
+
+  usernameStatus.value.loading = true
+  debounceTimer = setTimeout(async () => {
+    try {
+      const res = await fetch(`${API_URL}/auth/check-username/${username}`)
+      const data = await res.json()
+      
+      if (data.available) {
+        usernameStatus.value = { loading: false, available: true, message: 'Username tersedia ✅', valid: true }
+      } else {
+        usernameStatus.value = { loading: false, available: false, message: 'Username sudah dipakai ❌', valid: false }
+      }
+    } catch (e) {
+      console.error('Check failed', e)
+      usernameStatus.value.loading = false
+    }
+  }, 500)
+}
 
 // Animation refs
 const pageRef = ref(null)
@@ -232,7 +283,7 @@ async function handleRegister() {
   }
 
   try {
-    const response = await fetch('http://localhost:3001/auth/register', {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -264,7 +315,7 @@ async function handleRegister() {
 
     // Animasi pop-out sebelum redirect
     setTimeout(() => {
-      navigateWithAnimation('/dashboard')
+      navigateWithAnimation('/market/my')
     }, 800)
 
   } catch (err) {
@@ -424,4 +475,10 @@ h1 {
 .back-link:hover {
   color: #059669;
 }
+
+.text-green { color: #059669 !important; }
+.text-red { color: #DC2626 !important; }
+.text-gray { color: #64748B; }
+.border-green { border-color: #059669 !important; }
+.border-red { border-color: #DC2626 !important; }
 </style>

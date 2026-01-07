@@ -2,17 +2,36 @@ import express from 'express';
 import { api } from '../../convex/_generated/api.js';
 import convex from '../config/convex.js';
 
+import { isAuthenticated } from '../middleware/auth.js';
+
 const router = express.Router();
+
+// Semua rute kandang butuh login
+router.use(isAuthenticated);
 
 // ============ KANDANG MANAGEMENT ============
 
-// Ambil semua kandang yang public - buat browse dan request akses
-// Endpoint ini ga perlu login, siapa aja bisa liat
-router.get('/public', async (req, res) => {
+// Ambil portfolio investasi user
+router.get('/investments', async (req, res) => {
     try {
         const { userId } = req.query;
-        const kandangList = await convex.query(api.kandang.listAllPublic, {
-            userId: userId || undefined
+        if (!userId) {
+            return res.status(400).json({ error: 'userId required' });
+        }
+        const investments = await convex.query(api.kandang.getUserInvestments, {
+            userId
+        });
+        res.json(investments);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Ambil semua kandang dalam market
+router.get('/market/:marketId', async (req, res) => {
+    try {
+        const kandangList = await convex.query(api.kandang.listByMarket, {
+            marketId: req.params.marketId
         });
         res.json(kandangList);
     } catch (error) {
@@ -20,25 +39,10 @@ router.get('/public', async (req, res) => {
     }
 });
 
-// Ambil kandang yang user punya akses
-// Ini yg kepake di dashboard dropdown
-router.get('/', async (req, res) => {
-    try {
-        const { userId } = req.query;
-        if (!userId) {
-            return res.status(400).json({ error: 'userId required' });
-        }
-        const kandangList = await convex.query(api.kandang.listForUser, { userId });
-        res.json(kandangList);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Ambil detail satu kandang beserta info head owner
+// Ambil satu kandang by ID
 router.get('/:id', async (req, res) => {
     try {
-        const kandang = await convex.query(api.kandang.getWithOwner, {
+        const kandang = await convex.query(api.kandang.getWithMarket, {
             id: req.params.id
         });
         if (!kandang) {
@@ -50,14 +54,31 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Bikin kandang baru
-// Otomatis yang bikin jadi head owner
+// Ambil statistik kandang (ROI, profit, prediksi)
+router.get('/:id/stats', async (req, res) => {
+    try {
+        const stats = await convex.query(api.kandang.getKandangStats, {
+            kandangId: req.params.id
+        });
+        if (!stats) {
+            return res.status(404).json({ error: 'Kandang tidak ditemukan' });
+        }
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Bikin kandang baru di dalam market
 router.post('/', async (req, res) => {
     try {
-        const { name, headOwnerId, description } = req.body;
+        const { name, marketId, description } = req.body;
+        if (!name || !marketId) {
+            return res.status(400).json({ error: 'name dan marketId required' });
+        }
         const kandangId = await convex.mutation(api.kandang.create, {
             name,
-            headOwnerId,
+            marketId,
             description
         });
         res.json({ _id: kandangId });
@@ -66,46 +87,17 @@ router.post('/', async (req, res) => {
     }
 });
 
-// ============ MEMBER MANAGEMENT ============
-
-// Ambil semua member dari kandang
-router.get('/:id/members', async (req, res) => {
+// Update kandang
+router.put('/:id', async (req, res) => {
     try {
-        const members = await convex.query(api.kandang.getMembers, {
-            kandangId: req.params.id
-        });
-        res.json(members);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Tambahin member baru ke kandang
-// Role bisa co_owner atau investor
-router.post('/:id/members', async (req, res) => {
-    try {
-        const { userId, role } = req.body;
-        const memberId = await convex.mutation(api.kandang.addMember, {
-            kandangId: req.params.id,
-            userId,
-            role
-        });
-        res.json({ _id: memberId });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Update role member (co_owner <-> investor)
-// Cuma bisa ubah antara co_owner sama investor aja
-// Ga bisa jadiin head_owner, soalnya head_owner cuma 1
-router.patch('/:id/members/:userId', async (req, res) => {
-    try {
-        const { role } = req.body;
-        await convex.mutation(api.kandang.updateMemberRole, {
-            kandangId: req.params.id,
-            userId: req.params.userId,
-            role
+        const { name, description, avatar, avatarStorageId, isActive } = req.body;
+        await convex.mutation(api.kandang.update, {
+            id: req.params.id,
+            name,
+            description,
+            avatar,
+            avatarStorageId,
+            isActive
         });
         res.json({ success: true });
     } catch (error) {
@@ -113,10 +105,54 @@ router.patch('/:id/members/:userId', async (req, res) => {
     }
 });
 
-// Kick member dari kandang
-router.delete('/:id/members/:userId', async (req, res) => {
+// Hapus kandang
+router.delete('/:id', async (req, res) => {
     try {
-        await convex.mutation(api.kandang.removeMember, {
+        await convex.mutation(api.kandang.remove, {
+            id: req.params.id
+        });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ============ INVESTOR MANAGEMENT ============
+
+// Ambil semua investor di kandang
+router.get('/:id/investors', async (req, res) => {
+    try {
+        const investors = await convex.query(api.kandang.getInvestors, {
+            kandangId: req.params.id
+        });
+        res.json(investors);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Tambah investor ke kandang
+router.post('/:id/investors', async (req, res) => {
+    try {
+        const { userId, investmentAmount } = req.body;
+        if (!userId || !investmentAmount) {
+            return res.status(400).json({ error: 'userId dan investmentAmount required' });
+        }
+        const investorId = await convex.mutation(api.kandang.addInvestor, {
+            kandangId: req.params.id,
+            userId,
+            investmentAmount
+        });
+        res.json({ _id: investorId });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Remove investor dari kandang
+router.delete('/:id/investors/:userId', async (req, res) => {
+    try {
+        await convex.mutation(api.kandang.removeInvestor, {
             kandangId: req.params.id,
             userId: req.params.userId
         });
@@ -128,47 +164,18 @@ router.delete('/:id/members/:userId', async (req, res) => {
 
 // ============ ROLE CHECKING ============
 
-// Cek role user di kandang tertentu
-// Returns: head_owner, co_owner, investor, atau null (ga punya akses)
-router.get('/:id/user-role', async (req, res) => {
+// Cek role user di market
+router.get('/role/:marketId', async (req, res) => {
     try {
         const { userId } = req.query;
         if (!userId) {
             return res.status(400).json({ error: 'userId required' });
         }
-
-        // Cek apakah user ini head owner kandang
-        const kandang = await convex.query(api.kandang.getWithOwner, {
-            id: req.params.id
+        const role = await convex.query(api.kandang.getUserRoleInMarket, {
+            marketId: req.params.marketId,
+            userId
         });
-
-        if (!kandang) {
-            return res.status(404).json({ error: 'Kandang tidak ditemukan' });
-        }
-
-        // Kalo head owner, langsung return
-        if (String(kandang.headOwnerId) === String(userId)) {
-            return res.json({ role: 'head_owner' });
-        }
-
-        // Cek di membership table
-        const members = await convex.query(api.kandang.getMembers, {
-            kandangId: req.params.id
-        });
-
-        const membership = members.find(m => m.user?._id === userId);
-        if (membership) {
-            return res.json({ role: membership.role });
-        }
-
-        // Cek global role dari users table (fallback)
-        const user = await convex.query(api.users.get, { id: userId });
-        if (user && (user.role === 'investor' || user.role === 'head_owner' || user.role === 'co_owner')) {
-            return res.json({ role: user.role });
-        }
-
-        // Ga punya akses sama sekali
-        return res.json({ role: null });
+        res.json({ role });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

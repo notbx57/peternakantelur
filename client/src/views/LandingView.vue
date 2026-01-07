@@ -4,7 +4,7 @@
     <section class="hero">
       <div class="hero-content" ref="heroRef">
         <div class="logo" ref="logoRef">🐔</div>
-        <h1 ref="titleRef">Kampoeng Endok</h1>
+        <h1 ref="titleRef">Endogvest</h1>
         <p class="subtitle" ref="subtitleRef">Sistem Pelacakan Pengeluaran Peternakan Ayam</p>
         <p class="desc" ref="descRef">
           Platform untuk mencatat, mengelola, dan memantau biaya operasional 
@@ -35,7 +35,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p>&copy; 2025 Kampoeng Endok. Made with ❤️</p>
+      <p>&copy; 2025 IDL 1. Made through hardship.</p>
     </footer>
   </div>
 </template>

@@ -9,8 +9,9 @@
  */
 
 import type * as categories from "../categories.js";
+import type * as debug from "../debug.js";
 import type * as kandang from "../kandang.js";
-import type * as notifications from "../notifications.js";
+import type * as markets from "../markets.js";
 import type * as seed from "../seed.js";
 import type * as transactions from "../transactions.js";
 import type * as users from "../users.js";
@@ -23,8 +24,9 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   categories: typeof categories;
+  debug: typeof debug;
   kandang: typeof kandang;
-  notifications: typeof notifications;
+  markets: typeof markets;
   seed: typeof seed;
   transactions: typeof transactions;
   users: typeof users;

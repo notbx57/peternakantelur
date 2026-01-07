@@ -4,7 +4,7 @@ import { ConvexHttpClient } from 'convex/browser';
 const convexUrl = process.env.CONVEX_URL;
 
 // Kalo ga ada CONVEX_URL, langsung stop server aja
-// Ga usah lanjut kalo ga konek ke Convex soalnya
+// Ga usah lanjut kalo ga konek ke Convex
 if (!convexUrl) {
     console.error('❌ CONVEX_URL not found in .env.local');
     console.error('💡 Bikin file .env.local dulu dan isi CONVEX_URL ya!');

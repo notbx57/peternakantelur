@@ -104,6 +104,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useKandangStore } from '../stores/kandang'
 import { useAuthStore } from '../stores/auth'
 import gsap from 'gsap'
+import axios, { API_URL } from '@/api/axios'
 
 const props = defineProps({
   transaction: Object // for editing
@@ -138,6 +139,7 @@ const defaultCategories = [
   { name: 'Admin Bank', icon: '🏦', color: '#78716C', type: 'expense' },
   { name: 'Pullet/DOC', icon: '🐣', color: '#FBBF24', type: 'expense' },
   { name: 'Pembangunan', icon: '🏗️', color: '#0EA5E9', type: 'expense' },
+  { name: 'Investasi', icon: '💼', color: '#10B981', type: 'expense' },
   { name: 'Lain-lain', icon: '📦', color: '#94A3B8', type: 'expense' },
   // Income
   { name: 'Investasi', icon: '💰', color: '#22C55E', type: 'income' },
@@ -174,14 +176,12 @@ onMounted(async () => {
 
   // Load categories from API
   try {
-    const response = await fetch('http://localhost:3001/api/categories')
-    if (response.ok) {
-      categoriesList.value = await response.json()
-      // Set initial categoryId
-      const firstCat = categoriesList.value.find(c => c.type === form.value.type)
-      if (firstCat) {
-        form.value.categoryId = firstCat._id
-      }
+    const response = await axios.get(`${API_URL}/api/categories`)
+    categoriesList.value = response.data
+    // Set initial categoryId
+    const firstCat = categoriesList.value.find(c => c.type === form.value.type)
+    if (firstCat) {
+      form.value.categoryId = firstCat._id
     }
   } catch (e) {
     console.error('Error loading categories:', e)
@@ -241,6 +241,7 @@ async function handleSubmit() {
     const transactionData = {
       kandangId: currentKandang.value._id,
       categoryId: form.value.categoryId,
+      categoryName: form.value.category, // Kirim nama kategori juga
       createdBy: user.value._id,
       amount: Number(form.value.amount),
       type: form.value.type,
@@ -249,18 +250,14 @@ async function handleSubmit() {
     }
 
     const url = editing.value 
-      ? `http://localhost:3001/api/transactions/kandang/${currentKandang.value._id}/${props.transaction._id}`
-      : `http://localhost:3001/api/transactions/kandang/${currentKandang.value._id}`
+      ? `${API_URL}/api/transactions/kandang/${currentKandang.value._id}/${props.transaction._id}`
+      : `${API_URL}/api/transactions/kandang/${currentKandang.value._id}`
     
-    const method = editing.value ? 'PUT' : 'POST'
+    const method = editing.value ? 'put' : 'post'
     
-    const response = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(transactionData)
-    })
+    const response = await axios[method](url, transactionData)
 
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       // Show toast
       showToast.value = true
       
@@ -271,12 +268,11 @@ async function handleSubmit() {
         emit('close')
       }, 1500)
     } else {
-      const error = await response.json()
-      alert('Gagal menyimpan: ' + (error.message || error.error))
+      alert('Gagal menyimpan transaksi')
     }
   } catch (e) {
     console.error('Error saving transaction:', e)
-    alert('Error menyimpan transaksi')
+    alert('Error menyimpan transaksi: ' + (e.response?.data?.error || e.message))
   } finally {
     loading.value = false
   }

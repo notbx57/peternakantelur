@@ -2,7 +2,12 @@ import express from 'express';
 import { api } from '../../convex/_generated/api.js';
 import convex from '../config/convex.js';
 
+import { isAuthenticated } from '../middleware/auth.js';
+
 const router = express.Router();
+
+// Semua rute transaksi butuh login
+router.use(isAuthenticated);
 
 // ============ TRANSACTIONS ============
 
@@ -42,10 +47,11 @@ router.get('/kandang/:id', async (req, res) => {
 // Type bisa "income" atau "expense"
 router.post('/kandang/:id', async (req, res) => {
     try {
-        const { categoryId, createdBy, amount, type, description, date } = req.body;
+        const { categoryId, categoryName, createdBy, amount, type, description, date } = req.body;
         const txId = await convex.mutation(api.transactions.create, {
             kandangId: req.params.id,
             categoryId,
+            categoryName: categoryName || 'Lain-lain', // Default kalo kosong
             createdBy,
             amount: Number(amount),
             type,
@@ -62,10 +68,11 @@ router.post('/kandang/:id', async (req, res) => {
 // Semua field harus dikirim
 router.put('/kandang/:id/:txId', async (req, res) => {
     try {
-        const { categoryId, amount, type, description, date } = req.body;
+        const { categoryId, categoryName, amount, type, description, date } = req.body;
         await convex.mutation(api.transactions.update, {
             id: req.params.txId,
             categoryId,
+            categoryName,
             amount: amount ? Number(amount) : undefined,
             type,
             description,

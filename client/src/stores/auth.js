@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
+// Auth store - untuk user authentication
+// ROLE TIDAK ADA DI LEVEL USER LAGI!
+// Role (head_owner, co_owner, investor) hanya ada di context market/kandang
+
 export const useAuthStore = defineStore('auth', () => {
     const user = ref(null)
     const loading = ref(false)
 
+    // Basic auth checks
     const isAuthenticated = computed(() => !!user.value)
-    const isHeadOwner = computed(() => user.value?.role === 'head_owner')
-    const isCoOwner = computed(() => user.value?.role === 'co_owner')
-    const isInvestor = computed(() => user.value?.role === 'investor')
-    const isUser = computed(() => user.value?.role === 'user') // Role default user baru
-    const canEdit = computed(() => isHeadOwner.value || isCoOwner.value)
 
     function setUser(userData) {
         user.value = userData
@@ -31,17 +31,13 @@ export const useAuthStore = defineStore('auth', () => {
     async function logout() {
         user.value = null
         localStorage.removeItem('user')
+        localStorage.removeItem('auth_token')
     }
 
     return {
         user,
         loading,
         isAuthenticated,
-        isHeadOwner,
-        isCoOwner,
-        isInvestor,
-        isUser,
-        canEdit,
         setUser,
         loadUser,
         logout
