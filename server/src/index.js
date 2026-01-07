@@ -27,7 +27,23 @@ const PORT = process.env.PORT || 3001;
 
 // CORS - biar frontend bisa hit API dari domain lain
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3001'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    // Allow localhost
+    if (origin.startsWith('http://localhost')) {
+      return callback(null, true);
+    }
+
+    // Allow tunnelmole domains (http and https)
+    if (origin.match(/^https?:\/\/[a-z0-9-]+\.tunnelmole\.net$/)) {
+      return callback(null, true);
+    }
+
+    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    return callback(new Error(msg), false);
+  },
   credentials: true
 }));
 
@@ -83,7 +99,7 @@ import { fileURLToPath } from 'url';
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   app.listen(PORT, () => {
     console.log(`🐔 Server running on http://localhost:${PORT}`);
-    console.log(`📡 API ready to serve requests`);
+    console.log(`📡 API siap menerima request`);
   });
 }
 

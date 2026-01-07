@@ -126,7 +126,7 @@ for i in range(TOTAL_TRANSACTIONS):
             amount = random.randint(low, high)
         
         else:  # time_pattern
-            # Transaksi besar di waktu tidak biasa (tengah malam)
+            # Transaksi besar di waktu tidak biasa (tengah malam) salah satu anomali juga, mengerikan
             amount = high * random.uniform(5, 15)
             
     else:

@@ -11,6 +11,6 @@ export default defineConfig({
     }
   },
   server: {
-    allowedHosts: ["aa76hk-ip-140-213-190-83.tunnelmole.net"]
+    allowedHosts: ['c8iekn-ip-157-85-206-137.tunnelmole.net']
   }
 })
