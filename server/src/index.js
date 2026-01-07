@@ -41,6 +41,11 @@ app.use(cors({
       return callback(null, true);
     }
 
+    // Allow Vercel domains (production)
+    if (origin.match(/^https:\/\/[a-z0-9-]+\.vercel\.app$/)) {
+      return callback(null, true);
+    }
+
     const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
     return callback(new Error(msg), false);
   },
