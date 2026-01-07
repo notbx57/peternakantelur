@@ -84,6 +84,24 @@
           />
         </div>
 
+        <!-- Time -->
+        <div class="form-group">
+          <label>Waktu</label>
+          <div class="time-selector">
+            <select v-model="form.timeOption" class="input time-dropdown">
+              <option value="now">Sekarang</option>
+              <option value="custom">Set Sendiri</option>
+            </select>
+            <input 
+              v-if="form.timeOption === 'custom'"
+              type="time" 
+              v-model="form.time" 
+              class="input time-input"
+            />
+            <span v-else class="current-time">{{ currentTimeDisplay }}</span>
+          </div>
+        </div>
+
         <!-- Submit -->
         <button type="submit" class="btn btn-primary btn-lg w-full mt-md" :disabled="loading">
           {{ loading ? 'Menyimpan...' : (editing ? 'Simpan Perubahan' : 'Tambah Transaksi') }}
@@ -155,7 +173,25 @@ const form = ref({
   description: '',
   category: 'Pakan',
   categoryId: '',
-  date: new Date().toISOString().split('T')[0]
+  date: new Date().toISOString().split('T')[0],
+  timeOption: 'now',
+  time: getCurrentTime()
+})
+
+// Get current time in HH:MM format
+function getCurrentTime() {
+  const now = new Date()
+  return now.toTimeString().slice(0, 5)
+}
+
+// Display current time with AM/PM
+const currentTimeDisplay = computed(() => {
+  const now = new Date()
+  return now.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  })
 })
 
 const filteredCategories = computed(() => {
@@ -189,13 +225,16 @@ onMounted(async () => {
 
   // Load existing transaction data if editing
   if (props.transaction) {
+    const txDate = new Date(props.transaction.date)
     form.value = {
       type: props.transaction.type,
       amount: props.transaction.amount,
       description: props.transaction.description,
       category: props.transaction.category?.name || 'Lain-lain',
       categoryId: props.transaction.categoryId,
-      date: new Date(props.transaction.date).toISOString().split('T')[0]
+      date: txDate.toISOString().split('T')[0],
+      timeOption: 'custom',
+      time: txDate.toTimeString().slice(0, 5)
     }
   }
 })
@@ -238,6 +277,34 @@ async function handleSubmit() {
 
   loading.value = true
   try {
+    // Combine date and time
+    let dateTime
+    if (form.value.timeOption === 'now') {
+      // Use current date with current time
+      const dateOnly = new Date(form.value.date)
+      const now = new Date()
+      dateTime = new Date(
+        dateOnly.getFullYear(),
+        dateOnly.getMonth(),
+        dateOnly.getDate(),
+        now.getHours(),
+        now.getMinutes(),
+        now.getSeconds()
+      )
+    } else {
+      // Use custom time
+      const [hours, minutes] = form.value.time.split(':')
+      const dateOnly = new Date(form.value.date)
+      dateTime = new Date(
+        dateOnly.getFullYear(),
+        dateOnly.getMonth(),
+        dateOnly.getDate(),
+        parseInt(hours),
+        parseInt(minutes),
+        0
+      )
+    }
+
     const transactionData = {
       kandangId: currentKandang.value._id,
       categoryId: form.value.categoryId,
@@ -246,7 +313,7 @@ async function handleSubmit() {
       amount: Number(form.value.amount),
       type: form.value.type,
       description: form.value.description,
-      date: new Date(form.value.date).getTime()
+      date: dateTime.getTime()
     }
 
     const url = editing.value 
@@ -394,6 +461,32 @@ async function handleSubmit() {
 .cat-name {
   font-size: 0.7rem;
   color: var(--text-secondary);
+}
+
+/* Time Selector */
+.time-selector {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.time-dropdown {
+  flex: 1;
+  min-width: 140px;
+}
+
+.time-input {
+  flex: 1;
+}
+
+.current-time {
+  flex: 1;
+  padding: 10px 14px;
+  background: #F1F5F9;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 /* Toast Notification */

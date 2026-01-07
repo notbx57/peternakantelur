@@ -175,7 +175,7 @@
                         v-if="tx.anomaly" 
                         class="anomaly-badge" 
                         :class="tx.anomaly.is_anomaly ? 'anomaly' : 'normal'"
-                        :title="tx.anomaly.is_anomaly ? tx.anomaly.anomaly_reasons?.join(', ') : 'Normal'"
+                        :title="getAnomalyTooltip(tx)"
                       >
                         {{ tx.anomaly.is_anomaly ? '⚠️ Anomali' : '✓ Normal' }}
                       </span>
@@ -676,11 +676,34 @@ function formatCurrencyShort(val) {
 }
 
 function formatDate(ts) {
-  return new Date(ts).toLocaleDateString('id-ID', { 
+  const date = new Date(ts)
+  const dateStr = date.toLocaleDateString('id-ID', { 
     day: 'numeric', 
     month: 'short',
     year: 'numeric'
   })
+  const timeStr = date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  })
+  return `${dateStr}, ${timeStr}`
+}
+
+function getAnomalyTooltip(tx) {
+  if (!tx.anomaly?.is_anomaly) return 'Normal'
+  
+  const reasons = tx.anomaly.anomaly_reasons || []
+  if (reasons.length === 0) return 'Anomali terdeteksi oleh model'
+  
+  const mapping = {
+    'time_pattern': 'Jam Tidak Wajar',
+    'category_mismatch': 'Kategori Salah',
+    'amount_outlier': 'Jumlah Transaksi Tidak Wajar',
+    'model_detected': 'Unknown'
+  }
+  
+  return reasons.map(r => mapping[r] || r).join(', ')
 }
 
 // Anomaly Detection - cek transaksi yang mencurigakan
