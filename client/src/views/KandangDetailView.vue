@@ -955,6 +955,7 @@ watch(() => route.params.id, () => {
 .table-filters {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .filter-select,
@@ -969,13 +970,43 @@ watch(() => route.params.id, () => {
   width: 160px;
 }
 
+@media (max-width: 600px) {
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .table-filters {
+    width: 100%;
+  }
+  
+  .filter-select,
+  .search-input {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .search-input {
+    width: auto;
+  }
+  
+  .btn-export-pdf {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -12px;
+  padding: 0 12px;
 }
 
 .transaction-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 700px;
 }
 
 .transaction-table th,
@@ -983,6 +1014,13 @@ watch(() => route.params.id, () => {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #E5E5E5;
+  white-space: nowrap;
+}
+
+.transaction-table td:nth-child(3) {
+  white-space: normal;
+  min-width: 150px;
+  max-width: 250px;
 }
 
 .transaction-table th {
@@ -1303,6 +1341,31 @@ td.expense {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  
+  .prediction-sidebar .add-transaction-btn {
+    display: none;
+  }
+  
+  .breadcrumb {
+    font-size: 0.8rem;
+  }
+  
+  .stat-card {
+    padding: 12px;
+  }
+  
+  .stat-value {
+    font-size: 0.95rem;
+  }
+  
+  .table-section {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  .section-title {
+    font-size: 0.9rem;
   }
 }
 
