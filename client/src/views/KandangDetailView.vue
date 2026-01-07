@@ -64,6 +64,55 @@
           <!-- Balance Chart -->
           <BalanceChart :transactions="transactions" />
 
+          <!-- Mobile: Statistik Investasi Card (shown only on mobile below chart) -->
+          <div class="prediction-card mobile-only">
+            <div class="user-role-section" v-if="userRole">
+              <span class="label">Status Anda:</span>
+              <span class="role-badge" :class="userRole">
+                {{ formatRole(userRole) }}
+              </span>
+            </div>
+            <div class="prediction-divider"></div>
+            <h3>📊 Statistik Investasi</h3>
+            <div class="prediction-item">
+              <span class="label">ROI</span>
+              <span class="value" :class="{ positive: stats.roi >= 0, negative: stats.roi < 0 }">
+                {{ stats.roi >= 0 ? '+' : '' }}{{ stats.roi }}%
+              </span>
+            </div>
+            <div class="prediction-item">
+              <span class="label">Total Investasi</span>
+              <span class="value">{{ formatCurrency(stats.totalInvestment) }}</span>
+            </div>
+            <div class="prediction-item">
+              <span class="label">Profit</span>
+              <span class="value" :class="{ positive: stats.profit >= 0, negative: stats.profit < 0 }">
+                {{ formatCurrency(stats.profit) }}
+              </span>
+            </div>
+            <div class="prediction-divider"></div>
+            <h3>🔮 Prediksi</h3>
+            <div class="prediction-item">
+              <span class="label">Avg. Profit/Bulan</span>
+              <span class="value">{{ formatCurrency(stats.avgMonthlyProfit) }}</span>
+            </div>
+            <div class="prediction-item">
+              <span class="label">Prediksi ROI/Bulan</span>
+              <span class="value" :class="{ positive: stats.predictedMonthlyROI >= 0 }">
+                {{ stats.predictedMonthlyROI >= 0 ? '+' : '' }}{{ stats.predictedMonthlyROI }}%
+              </span>
+            </div>
+            <div class="prediction-item" v-if="stats.monthsToBreakEven">
+              <span class="label">Break-even</span>
+              <span class="value">~{{ stats.monthsToBreakEven }} bulan</span>
+            </div>
+            <p class="prediction-desc">Berdasarkan data 3 bulan terakhir</p>
+            
+            <button v-if="canInvest" class="invest-btn mobile-invest-btn" @click="showInvestModal = true">
+              Invest 🔥
+            </button>
+          </div>
+
           <!-- Transaction Table -->
           <div class="table-section">
             <div class="table-header">
@@ -764,6 +813,9 @@ watch(() => route.params.id, () => {
 <style scoped>
 .kandang-detail {
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* Breadcrumb */
@@ -819,15 +871,14 @@ watch(() => route.params.id, () => {
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: 24px;
+  width: 100%;
+  min-width: 0;
 }
 
 @media (max-width: 900px) {
   .content-layout {
     grid-template-columns: 1fr;
-  }
-  
-  .prediction-sidebar {
-    order: -1;
+    gap: 16px;
   }
 }
 
@@ -835,6 +886,8 @@ watch(() => route.params.id, () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* Stats Row */
@@ -865,9 +918,29 @@ watch(() => route.params.id, () => {
   border-color: #9ca3af;
 }
 
+/* Mobile-only: hidden on desktop, shown on mobile */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .prediction-sidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 600px) {
   .stats-row {
     grid-template-columns: 1fr;
+    width: 100%;
+  }
+  
+  .stat-card {
+    justify-content: center;
   }
 }
 
@@ -1201,12 +1274,21 @@ td.expense {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .prediction-sidebar {
+    width: 100%;
+  }
 }
 
 .prediction-card {
   background: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .prediction-card h3 {
@@ -1218,17 +1300,23 @@ td.expense {
 .prediction-item {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .prediction-item .label {
   color: #666666;
   font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
 .prediction-item .value {
   font-weight: 600;
   font-size: 0.9rem;
+  text-align: right;
+  word-break: break-word;
 }
 
 .prediction-item .value.positive {
@@ -1239,6 +1327,11 @@ td.expense {
   color: #999999;
   font-size: 0.85rem;
   margin-top: 12px;
+}
+
+.mobile-invest-btn {
+  margin-top: 16px;
+  width: 100%;
 }
 
 /* User Role Section */
