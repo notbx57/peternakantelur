@@ -1,6 +1,9 @@
 # Peternakan Telur
 
 Aplikasi manajemen peternakan telur dengan stack CEVN
+# APLIKASI RILIS DI : https://peternakantelur.vercel.app/
+
+
 C: Convex
 E: Express.js
 V: Vue.js
