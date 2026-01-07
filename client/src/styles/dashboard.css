@@ -122,13 +122,6 @@
 /* ============================================
    Hamburger Menu Button
    ============================================ */
-/* ============================================
-   Hamburger Menu Button (Mobile Only)
-   ============================================ */
-/* ============================================
-   Hamburger Menu Button (Deleted - Moved to Navbar)
-   ============================================ */
-/* .hamburger-btn was here */
 
 /* ============================================
    Responsive - buat layar kecil
@@ -159,10 +152,4 @@
         display: none;
     }
 
-    /* Navbar also needs to shift or be full width? 
-       Usually sidebar side-by-side with content, 
-       but here sidebar is full height? 
-       Let's stick to sidebar under navbar or full height.
-       Current plan: Sidebar fixed left, top 64px (navbar height)
-    */
 }

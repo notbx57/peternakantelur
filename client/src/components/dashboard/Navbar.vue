@@ -113,16 +113,9 @@ defineEmits(['toggle-sidebar'])
   .nav-toggle-btn {
     display: none;
   }
+}
   
   .nav-spacer {
-    display: none; /* Hide spacer too if we want center */
-    /* Wait, if spacer is hidden, center brand might shift?
-       Absolute positioning of brand handles centering.
-       Spacer was to offset flex flow if we used flex-gap.
-       But .navbar-content uses space-between.
-       Left: button, Center: absolute Brand, Right: spacer.
-       If button gone, we don't need spacer if Brand is absolute.
-    */
-  }
+    display: none;
 }
 </style>

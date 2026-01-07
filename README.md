@@ -38,13 +38,17 @@ npm install
 
 **Konfigurasi Environment Variables:**
  
-untuk mendapatkan `.env.local` dan isi konfigurasi yang dibutuhkan:
-1. Jalankan command berikut untuk mendapatkan '.env.local' , `CONVEX_URL` dan `CONVEX_DEPLOYMENT`:
-   ```bash
-   npx convex dev --configure=existing --team rayyen --project peternakantelur
-   ```
-2. Buat `JWT_SECRET` dan `SESSION_SECRET` (lihat .env.example).
-
+tambahkan file bernama [.env.local] di folder /server saja. Tambahkan variabel dibawah ini
+```
+CONVEX_DEPLOYMENT=dev:limitless-fly-244 # team: rayyen, project: peternakantelur
+CONVEX_URL=https://limitless-fly-244.convex.cloud
+SESSION_SECRET=GENERATE SENDIRI
+JWT_SECRET=GENERATE SENDIRI (BEDA SAMA SESSION SECRET)
+```
+Untuk Secret, Mohon Generate dengan command dibawah ini (Paste di CMD/Terminal) :
+```
+node -e "const crypto = require('crypto'); console.log(crypto.randomBytes(32).toString('hex'));"
+```
 ### 3. Jalankan Server
 
 Ada 3 terminal yang harus dijalankan terpisah
